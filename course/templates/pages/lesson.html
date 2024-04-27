@@ -1,35 +1,47 @@
-{% extends 'pages/base.html' %}
-{% load static %}
-
+{% include 'pages/base.html' %}
 <!DOCTYPE html>
 <html>
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            padding-top: 30px;
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
     {% block content %}
     <br>
     <small class="text-muted" style="padding: 30px;"> 
-        <a href="{% url 'course_details' lesson_dt.course.title|slugify %}" class="btn btn-primary">Retourn</a>
+        <a href="{% url 'course_details' lesson_dt.course.title|slugify %}" class="btn btn-primary">Return</a>
     </small> 
     <br>
-    <div class="container">
+    <div class="container" style="width: 60%;">
         <h3 class="text-center">
             {{ lesson_dt.course }}
         </h3>
 
         <br>
         <div class="card border-secondary">
-            <div class="card-header" style="font: bold; font-size: large;">
+            <div class="card-header" style="font-weight: bold; font-size: large;">
                 Lesson: {{ lesson_dt.title }}
             </div>
             <div class="card-body">
-                <!-- <h5 class="card-title">
-                    {{ lesson_dt.title }}
-                </h5> -->
-                <div class="embed-responsive embed-responsive-16by9">
-                    <video class="embed-responsive-item" controls>
-                        <source src="{% static 'video'%}{{ lesson_dt.video.url }}" type="video/mp4" />
+                <div class="video-container">
+                    <video controls>
+                        <source src="{{ lesson_dt.video.url }}" type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
                 </div>
@@ -47,6 +59,54 @@
         <br>
     </div>
     
+    <div class="container" style="width: 60%;" >
+        <div class="card-header" style="font-weight: bold; font-size: large;">
+            <h3 class="mb-4 text-xl">Comments</h3>
+        </div>
+        <div class="card border-secondary" style="padding: 40px;">
+        {% for comment in lesson_dt.comments.all %}
+            <div class="mb-4 w-full py-4 px-6 rounded-xl bg-white">
+                <strong>{{ comment.name }}</strong> | {{ comment.created_at|timesince }} ago<br>
+
+                <p class="text-gray-500">{{ comment.comment }}</p>
+            </div>
+        {% endfor %}
+        </div>
+        <div class="container" >
+        <div class="card-header" style="font-weight: bold; font-size: large;">
+
+        <div class="card-header" style="font-weight: bold; font-size: large;">
+            <h3 class="mb-4 text-xl">Add new comment</h3>
+        </div>
+        <form method="post" action="{% url 'lessons' lesson_id=lesson_dt.id title=lesson_dt.title %}" class="space-y-4">
+            {% csrf_token %}
+
+            <div>
+                <label>Name</label><br>
+                <input type="text" name="name" class="w-full py-4 px-6 rounded-xl bg-white">
+            </div>
+
+            <div>
+                <label>E-mail</label><br>
+                <input type="email" name="email" class="w-full py-4 px-6 rounded-xl bg-white">
+            </div>
+
+            <div>
+                <label>Comment</label><br>
+                <textarea name="title" class="w-full py-4 px-6 rounded-xl bg-white"></textarea>
+            </div>
+
+            <div>
+                <button class="py-4 px-6 rounded-xl bg-emerald-800 text-white">Submit</button>
+            </div>
+        </form>
+            </div>
+        </div>
+    </div>
+<br>
+
     {% endblock %}
+
+    {% include 'pages/footer.html' %}
 </body>
 </html>

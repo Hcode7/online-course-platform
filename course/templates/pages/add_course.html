@@ -1,0 +1,16 @@
+{% include 'pages/base.html' %}
+
+{% block content %}
+<form method="post" action="{% url 'create_course' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+        {{ form.as_p }}
+    </div>
+
+    
+    <button type="submit">Create Course</button>
+</form>
+<br>
+
+{% endblock content %}
+{% include 'pages/footer.html' %}

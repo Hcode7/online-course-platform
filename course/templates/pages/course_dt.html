@@ -1,4 +1,4 @@
-{% extends 'pages/base.html' %}
+{% include 'pages/base.html' %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -55,8 +55,11 @@
             </div>
             </div>
         </div>
+
+        <br>
         
         {% endblock content %}
 
     </body>
+    {% include 'pages/footer.html' %}
 </html>

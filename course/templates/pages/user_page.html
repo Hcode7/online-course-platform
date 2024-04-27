@@ -1,0 +1,44 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+
+
+
+<div class="container mt-4"> 
+    <div class="row row-cols-1 row-cols-md-3 g-4"> 
+        <div class="col"> 
+            <div class="card h-100 d-flex flex-column justify-content-between">
+                <img src="{{ user.image }}" class="card-img-top" alt="..."> 
+                <div class="card-body"> 
+                    <h5 class="card-title">
+                        <h2>Username : </h2>    {{ user.username }}
+                    </h5> 
+                    <p class="card-text"> 
+                        {{ user.first_name }} 
+                    </p> 
+                    <p class="card-text"> 
+                        <h2>First Name : </h2>    {{ user.first_name }} 
+                    </p> 
+                    <p class="card-text">
+                        <h2>Last Name : </h2>    {{ user.last_name }} 
+                    </p> 
+                    <p class="card-text"> 
+                        <h2>Email : </h2>    {{ user.email }} 
+                    </p> 
+                </div> 
+                <div class="card-footer"> 
+                    <small class="text-muted" style="size: 10px;"> 
+                        <a href="#" style="background-color: red; margin-left: 10px; margin: 15px;" class="btn btn-secondary">Delete Your Account</a>
+                    </small> 
+                    <small class="text-muted"> 
+                        <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+                    </small> 
+                </div> 
+
+            </div> 
+        </div>  
+    </div>
+</div>
+{% include 'pages/footer.html' %}
+
+{% endblock content %}
